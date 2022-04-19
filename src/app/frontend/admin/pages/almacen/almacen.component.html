@@ -1,0 +1,241 @@
+<h2>
+    {{ titulo }}
+</h2>
+
+<p-toast></p-toast>
+
+
+<div>
+
+    <br>
+
+    <div class="div-filtros">
+        <form class="form-modal" autocomplete="off" [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-3 col-xl-2">
+                    <div class="form-group">
+                        <label for="clave_s">Clave: </label>
+                        <input type="text" class="form-control" name="clave_s" id="clave_s" tabindex="1" formControlName="clave_s">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-xl-2">
+                    <div class="form-group">
+                        <label for="nombre_s">Nombre: </label>
+                        <input type="text" class="form-control" name="nombre_s" id="nombre_s" tabindex="2" formControlName="nombre_s">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-xl-2">
+                    <div class="form-group">
+                        <label for="estatus_s">Estatus: </label>
+                        <select name="estatus_s" id="estatus_s" class="form-control" tabindex="3" formControlName="estatus_s">
+                            <option value="99">-- Seleccione --</option>
+                            <option value="1">Activo</option>
+                            <option value="0">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-xl-2">
+                    <div class="form-group">
+                        <label for="fecha_inicio">Fecha Inicio: </label>
+                        <div><p-calendar name="fecha_inicio" formControlName="fecha_inicio" dateFormat="dd/mm/yy"></p-calendar></div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-xl-2">
+                    <div class="form-group">
+                        <label for="fecha_fin">Fecha Fin: </label>
+                        <div><p-calendar name="fecha_fin" formControlName="fecha_fin" dateFormat="dd/mm/yy"></p-calendar></div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-2 d-grid col-xl-1 gap-2" style="line-height: 5;">
+                    <button type="submit" class="btn btn-primary btn-lg">Buscar</button>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2 col-xl-1 d-grid gap-2" style="line-height: 5;">
+                    <button type="button" class="btn btn-danger " (click)="clear()">Limpiar</button>
+                </div>
+            </div>
+            
+            
+        </form>
+    </div>
+
+
+    <div class="div-btn-add">
+
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <span>Mostrar</span>
+                <select name="mostrar" id="mostrar" class="form-control" [(ngModel)]="page_limit" (change)="mostrar()">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="500">500</option>
+                </select>
+                <span>Registros</span>
+            </div>
+            <div class="col-12 col-sm-6">
+                <span>Orden</span>
+                <select name="order" id="order" class="form-control" [(ngModel)]="order" (change)="ordenar()">
+                    <option value="ASC">Ascendente</option>
+                    <option value="DESC">Descendente</option>
+                </select>
+            </div>
+        </div>
+
+        <div>
+            <button class="btn verde-principal-boton" (click)="agregar()">
+                <i class="bi bi-plus-lg"></i> Agregar 
+            </button>
+        </div>
+    </div>
+
+
+    <div clas="table-responsive">
+        <table id="table" class="table table-striped table-dark table-hover table-bordered">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Clave</td>
+                    <td>Nombre</td>
+                    <td>Estatus</td>
+                    <td>Fecha</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let obj of dataAlmacen; let i = index;">
+                    <td>{{ obj.id }}</td>
+                    <td>{{ obj.clave }}</td>
+                    <td>{{ obj.nombre }}</td>
+                    <td>{{ obj.estatus == 0 ? 'Inactivo' : 'Activo' }}</td>
+                    <td>{{ obj.created_at | date:'dd/MM/yy HH:mm:ss'  }} </td>
+                    <td>
+                        <div class="acciones">
+                            <button class="btn btn-primary btn-sm" title="Editar" (click)="editar(obj.id)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm" title="Eliminar" (click)="eliminar(obj)">
+                                <i class="bi bi-trash3-fill"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+    
+        </table>
+
+        <!--<app-paginacion></app-paginacion>-->
+
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <small>
+                    {{ infoResultados }}
+                </small>
+            </div>
+            <div *ngIf="dataAlmacen.length" class="col-12 col-sm-6 div-paginacion">
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      <li class="page-item">
+                          <a class="page-link" (click)="changePage(1)">Primero</a>
+                      </li>
+                      <li class="page-item">
+                            <a class="page-link" (click)="changePage(previousPage)">&laquo;</a>
+                        </li>
+
+                        <span *ngFor="let page of pages">
+
+                            <li class="page-item">
+                                <a *ngIf="page == currentPage" class="page-link div-paginacion-active" (click)="changePage(page)">{{ page}}</a>
+                                <a *ngIf="page != currentPage" class="page-link" (click)="changePage(page)">{{ page}}</a>
+
+                              </li>
+                          </span>
+
+                      <li class="page-item">
+                            <a class="page-link" (click)="changePage(nextPage)">&raquo;</a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" (click)="changePage(pages.length)" >Último</a>
+                  </li>
+                    </ul>
+                  </nav>
+
+            </div>
+        </div>
+
+    </div>
+
+    
+
+    
+    
+<!--
+    <div class="dataTables_paginate" *ngIf="dataAlmacen && dataAlmacen.length >= 1">
+        <a class="paginate_button page-first-child">
+          Primero
+        </a>
+        <a class="paginate_button">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+        <span *ngFor="let page of pages">
+    
+          <a *ngIf="page == currentPage" class="paginate_button current">{{ page}}</a>
+          <a *ngIf="page != currentPage" class="paginate_button">{{ page }}</a>
+    
+        </span>
+        <a class="paginate_button">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+        <a class="paginate_button page-last-child" >
+          Último
+        </a>
+      </div>-->
+
+
+
+
+</div>
+
+
+  <p-dialog header="{{ tituloModal }}" [modal]="true"  [(visible)]="display" [breakpoints]="{'960px': '75vw'}" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+
+        <form class="form-modal" autocomplete="off" [formGroup]="formularioAlmacen">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="clave">Clave: </label>
+                        <input type="text" class="form-control" name="clave" id="clave" tabindex="1" formControlName="clave">
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="nombre">Nombre: </label>
+                        <input type="text" class="form-control" name="nombre" id="nombre" tabindex="2" formControlName="nombre">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group" style="display: flex; margin-top: 10px;">
+                        <label for="estatus" style="margin-right: 10px;">Estatus: </label>
+                        <p-inputSwitch formControlName="estatus"></p-inputSwitch>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </form>
+
+        <ng-template pTemplate="footer">
+            <button pButton (click)="display=false" label="Salir" class="p-button-danger"></button>
+            <!--<button pButton (click)="closeModal()" label="Agregar" [disabled]="formularioAlmacen.invalid"></button>-->
+            <button type="submit" pButton (click)="confirmar(botonModal)" label="{{ botonModal }}"></button>
+        </ng-template>
+</p-dialog>

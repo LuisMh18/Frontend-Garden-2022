@@ -1,0 +1,81 @@
+
+<div class="content-sidebar">
+    
+    <header>
+        <div class="icon-menu icon-menu-amburguesa" (click)="ocultarMostrarMneu()">
+            <i class="bi bi-list"></i>
+        </div>
+        <div class="icon-menu icon-menu-salir" style="display: flex;align-items: center;cursor:pointer;" (click)="logout()">
+            <i title="Cerrar Sesión" style="font-size: 35px;" class="bi bi-power"></i>
+        </div>
+
+        <div class="titulo-app" style="text-align: center;">
+            <span style="font-size: 2em;">Garden Central</span>
+        </div>
+
+    </header>
+
+
+    <div class="menu" *ngIf="menu">
+
+        <div class="info-user">
+            <h3>{{ usuario.usuario }} {{ usuario.usuario.email }}</h3>
+            <h4>{{ usuario.usuario.nombreRol }}</h4>
+        </div>
+    
+        <aside class="aside-menu">
+
+            <div class="acordeon" *ngFor="let m of datamenu; let i = index;">
+                <ul>
+
+                   <li class="opcion" *ngIf="m.ruta != null">
+                        <div class="div" (click)="ocultarMostrarMneu()" routerLink="/admin/{{ m.ruta }}">
+                            <div>
+                                <i class="{{ m.icono }}" style="font-size:1.3em"></i>
+                                <span style="font-size:1.3em;margin-left: 15px;">
+                                    {{ m.nombre }}
+                                </span>
+                            </div>
+                            <div></div>
+                        </div>
+                    </li>
+
+                    <li class="opcion" *ngIf="m.ruta == null">
+                        <div class="div menu-active" (click)="ocultarMostrarSubMenu(i)">
+                            <div>
+                                <i class="{{ m.icono }}" style="font-size:1.3em"></i>
+                                <span style="font-size:1.3em;margin-left: 15px;">
+                                    {{ m.nombre }}
+                                </span>
+                            </div>
+                            <div>
+                                <i class="bi bi-file-plus" style="font-size:1.5em"></i>
+                            </div>
+                        </div>
+
+
+                        <ul class="submenu" *ngIf="opcion == i">
+                            <li routerLinkActive="submenu-active" *ngFor="let sb of m.arrSubmenu; let i = index;" routerLink="{{ sb.ruta }}" (click)="ocultarMostrarMneu()">
+                                <i class="{{ sb.icono }}" style="font-size:1em"></i>
+                                <span style="font-size:1em;margin-left: 15px;">
+                                    {{ sb.nombre }}
+                                </span>
+                            </li>
+                        </ul>
+                        
+                      
+    
+                    </li>
+
+
+                   
+                </ul>
+            </div>
+
+        </aside>
+
+    </div>
+
+
+
+</div>

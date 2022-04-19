@@ -1,0 +1,58 @@
+
+<app-sidebar></app-sidebar>
+
+<div class="layout">
+
+        <div class="cabecera">
+            <div style="display: flex;align-items: center;cursor:pointer;">
+                <span #asTittleSection id="seccion" style="font-size: 1.5em;">{{ seccion }}</span>
+            </div>
+
+            <div class="icon-menu" style="display: flex;align-items: center;cursor:pointer;" (click)="logout()">
+                <i title="Cerrar Sesión" style="font-size: 35px;" class="bi bi-power"></i>
+            </div>
+
+        </div>
+
+        <div style="padding: 0 20px 0 30px;">
+
+        <!--
+            <p>
+                Está página solo funciona si estás autenticado
+            </p> 
+
+            <a routerLink="/auth/login" style="margin-top: 10px;" class="enlace">Regresar</a>
+        
+        
+            <h4>User info: </h4>
+        
+        
+            <pre>{{ usuario | json }}</pre>
+
+            <pre>{{ usuario.email }}</pre>
+            <pre>{{ usuario.rol }}</pre>
+
+        -->
+    
+    
+        
+            <router-outlet></router-outlet>
+        </div>
+
+
+        
+</div>
+
+<app-footer></app-footer>
+
+            
+
+
+
+
+
+
+
+
+
+
