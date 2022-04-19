@@ -15,9 +15,4 @@ export class PaginacionComponent implements OnInit {
   }
 
 
-  generarPaginacion(data:any){
-    const gp = this.sharedService.generarPaginacion(data);
-    console.log("gp: ", gp);
-  }
-
 }

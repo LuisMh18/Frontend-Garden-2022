@@ -103,7 +103,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let obj of dataInventario; let i = index;">
+                <tr *ngFor="let obj of dataInventario | paginate: { itemsPerPage: page_limit, currentPage: pagina, totalItems: totalregistros }; let i = index;">
                     <td>{{ obj.id }}</td>
                     <td>{{ obj.clave }}</td>
                     <td>{{ obj.nombre }}</td>
@@ -132,9 +132,20 @@
                     {{ infoResultados }}
                 </small>
             </div>
+
+            
+
             <div *ngIf="dataInventario.length" class="col-12 col-sm-6 div-paginacion">
 
-                <nav aria-label="Page navigation example">
+                <nav>
+                    <ul class="pagination">
+                        <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                    </ul>
+                  </nav>
+
+            </div>
+
+            <!-- <nav aria-label="Page navigation example">
                     <ul class="pagination">
                       <li class="page-item">
                           <a class="page-link" (click)="changePage(1)">Primero</a>
@@ -149,7 +160,7 @@
                             <li class="page-item">
                                 <a *ngIf="page == currentPage" class="page-link div-paginacion-active" (click)="changePage(page)">{{ page}}</a>
                                 <!--<a *ngIf="page == '...'" class="page-link paginacion-disabled">{{ page}}</a>-->
-                                <a *ngIf="page != currentPage && page != '...'" class="page-link" (click)="changePage(page)">{{ page}}</a>
+                             <!--   <a *ngIf="page != currentPage && page != '...'" class="page-link" (click)="changePage(page)">{{ page}}</a>
 
                               </li>
                           </span>
@@ -164,7 +175,9 @@
                     </ul>
                   </nav>
 
-            </div>
+            </div>-->
+
+
         </div>
 
     </div>

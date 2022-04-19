@@ -10,6 +10,10 @@ import { CalendarModule } from 'primeng/calendar';
 
 import { ImageModule } from 'primeng/image';
 
+import { HttpClientModule } from '@angular/common/http';
+
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @NgModule({
   exports: [
     DialogModule,
@@ -17,7 +21,9 @@ import { ImageModule } from 'primeng/image';
     InputSwitchModule,
     ToastModule,
     CalendarModule,
-    ImageModule
+    ImageModule,
+    NgxPaginationModule,
+    HttpClientModule
   ]
 })
 export class MaterialModule { }

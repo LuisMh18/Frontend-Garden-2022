@@ -273,15 +273,41 @@ input:focus, select:focus, select, input.form-control:focus {
   background-color: #323539;
 }
 
+.div-paginacion .ngx-pagination  {
+  color: #ffff;
+  background-color: #323539!important;
+}
+
 .div-paginacion nav ul li a:hover{
   color: #ffff;
   background-color: #212224;
   cursor: pointer;
 }
 
-.div-paginacion-active{
-  /*color: #bb2d3b!important;*/
+.ngx-pagination li{
   background-color: #212224!important;
+  border:1px solid #ffff;
+  padding-left: 0;
+}
+
+.ngx-pagination li{
+  border-radius: 3px 3px 3px 3px!important;
+}
+
+.ngx-pagination li:first-child{
+  border-radius: 3px 0 0 3px!important;
+}
+
+.ngx-pagination li:last-child{
+  border-radius: 0 3px 3px 0!important;
+}
+
+/*.div-paginacion-active{
+  background-color: #212224!important;
+}*/
+
+.ngx-pagination a{
+  text-decoration: none!important;
 }
 
 .paginacion-disabled{

@@ -75,19 +75,43 @@ export class SharedService {
     return null;
   }
 
-  generarPaginacion(data:any){
+
+  
+  mostrarResultados(data:any){
+
+    this.currentPage = data.currentPage;
+    this.nextPage = data.nextPage;
+
+    this.totalregistros = data.total;
+    let totalpaginas = data.limit;
+
+    let inicio  = 0;
+    let fin = 0;
+
+    inicio = (this.currentPage * totalpaginas) - totalpaginas;
+
+    (inicio == 0) ? inicio = 1 : inicio = inicio; 
+
+    fin = (this.nextPage == null) ? fin = this.totalregistros : fin = (this.currentPage * totalpaginas);
+
+
+    this.infoResultados = `Mostrando del ${inicio} a ${fin} (Total: ${this.totalregistros} resultados)`;
+
+    console.log("this.infoResultados: ", this.infoResultados);
+    return {
+      infoResultados: this.infoResultados,
+    }
+
+
+  }
+
+  /*generarPaginacion(data:any){
 
     console.log("****data*****");
     console.log(data);
     
     this.dataAlmacen = data.data;
-    //`Mostrando del 1 a 50 (Total: 71 resultados)`
 
-    /**
-     * Armar paginación -- LuisMh 16-04-22
-     * 
-     */
-     
     this.previousPage = data.previousPage;
     this.currentPage = data.currentPage;
     this.nextPage = data.nextPage;
@@ -98,8 +122,6 @@ export class SharedService {
 
     let inicio  = 0;
     let fin = 0;
-    //var cantidad_registros = page_limit;
-    //var currentPage = parseInt(current_page);
 
     inicio = (this.currentPage * totalpaginas) - totalpaginas;
 
@@ -107,13 +129,6 @@ export class SharedService {
 
     fin = (this.nextPage == null) ? fin = this.totalregistros : fin = (this.currentPage * totalpaginas);
 
-    /*if(this.currentPage > 1){
-        inicio = (cantidad_registros * (this.currentPage - 1));
-        inicio = (cantidad_registros * current_page) - page_limit;
-        cantidad_registros = cantidad_registros * current_page;
-    }*/
-
-    //limit ${inicio}, ${page_limit};
 
     this.infoResultados = `Mostrando del ${inicio} a ${fin} (Total: ${this.totalregistros} resultados)`;
 
@@ -130,28 +145,6 @@ export class SharedService {
     console.log("total de paginas: ", this.pages);
     console.log("this.currentPage: ", this.currentPage);
 
-    //validar el número total de paginas
-    /*console.log("numero total de paginación: ", this.pages.length);
-    if(this.pages.length > 5){ //si la paginación es mayor a 5 hacemos la validación
-      let numeroPenultimoPaginacion = this.pages.length - 1;
-      this.pagination = [];
-      for(let j = 1; j<=this.pages.length; j++){
-        console.log("j: ", j);
-        if(j < 6){ 
-          this.pagination.push(j);
-        } else {
-          if(j == numeroPenultimoPaginacion){
-            this.pagination.push("...");
-          } else if(j == this.pages.length){
-            this.pagination.push(j);
-          }
-        }
-        
-      }
-    }*/
-    
-    //console.log("this.pagination: ", this.pagination);
-
     return {
       infoResultados: this.infoResultados,
       pages: this.pages,
@@ -162,13 +155,7 @@ export class SharedService {
     }
 
 
-    /**
-     * End paginación
-     * 
-     */
-
-
-  }
+  }*/
 
 
   //metodo si el token expira, limpiamos el localStorage y redireccionamos al login

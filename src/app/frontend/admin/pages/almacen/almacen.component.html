@@ -110,7 +110,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let obj of dataAlmacen; let i = index;">
+                <tr *ngFor="let obj of dataAlmacen | paginate: { itemsPerPage: page_limit, currentPage: pagina, totalItems: totalregistros }; let i = index;">
                     <td>{{ obj.id }}</td>
                     <td>{{ obj.clave }}</td>
                     <td>{{ obj.nombre }}</td>
@@ -139,7 +139,18 @@
                     {{ infoResultados }}
                 </small>
             </div>
+
             <div *ngIf="dataAlmacen.length" class="col-12 col-sm-6 div-paginacion">
+
+                <nav>
+                    <ul class="pagination">
+                        <pagination-controls previousLabel="Anterior" nextLabel="Siguiente" (pageChange)="pageChangeEvent($event)"></pagination-controls>
+                    </ul>
+                  </nav>
+
+            </div>
+
+            <!--<div *ngIf="dataAlmacen.length" class="col-12 col-sm-6 div-paginacion">
 
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
@@ -168,7 +179,7 @@
                     </ul>
                   </nav>
 
-            </div>
+            </div>-->
         </div>
 
     </div>

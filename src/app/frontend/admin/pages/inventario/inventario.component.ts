@@ -26,16 +26,10 @@ export class InventarioComponent implements OnInit {
 
   /**Paginación*/
   current_page:number = 1;
-
-  pages!:any;
-  previousPage!:any;
-  nextPage! : any;
-  currentPage!:number;
-  totalregistros!:number;
+  totalregistros:number = 0;
   infoResultados!:string;
-
   paginacion!:any;
-
+  pagina: number = 1;
 
 
   formularioBuscar: FormGroup = this.fb.group({
@@ -62,20 +56,20 @@ export class InventarioComponent implements OnInit {
 
   }
 
+  pageChangeEvent(event: number){
+    this.pagina = event;
+    console.log("this.p: ", this.pagina);
+    this.formularioBuscar.value.current_page = this.pagina;
+    this.getData(this.formularioBuscar.value);
+ }
+
   clear(){
     this.formularioBuscar.reset({ estatus_s: 99 });
     this.page_limit = "10";
     this.order = "DESC";
+    this.pagina = 1;
     this.getData();
   }
-
-  //cambiar de pagina ----
-  changePage(pagina:number){
-    console.log("pagina: ", pagina);
-    this.formularioBuscar.value.current_page = pagina;
-    this.getData(this.formularioBuscar.value);
-  }
-
 
   getData(paramas?:any) {
 
@@ -98,12 +92,13 @@ export class InventarioComponent implements OnInit {
          * Armar paginación -- LuisMh 16-04-22
          * 
          */
-         this.paginacion = this.sharedService.generarPaginacion(resp.data);
+         this.paginacion = this.sharedService.mostrarResultados(resp.data);
          this.infoResultados = this.paginacion.infoResultados;
-         this.pages = this.paginacion.pages;
+         /*this.pages = this.paginacion.pages;
          this.currentPage = this.paginacion.currentPage;
          this.previousPage = this.paginacion.previousPage;
-         this.nextPage = this.paginacion.nextPage;
+         this.nextPage = this.paginacion.nextPage;*/
+         this.totalregistros = resp.data.total;
 
         /**
          * End paginación
@@ -120,11 +115,9 @@ export class InventarioComponent implements OnInit {
 
   mostrar(){
 
-    console.log("this.currentPage: ", this.currentPage);
-    console.log("this.nextPage: ", this.nextPage);
     console.log("this.page_limit: ", this.page_limit);
     console.log("this.totalregistros: ", this.totalregistros);
-    console.log("this.pages.length: ", this.pages.length)
+    //console.log("this.pages.length: ", this.pages.length)
     console.log("this.dataInventario.length: ", this.dataInventario)
     
     /*Si el total de registros por pagina es mayor a el total de registros obtenidos 
