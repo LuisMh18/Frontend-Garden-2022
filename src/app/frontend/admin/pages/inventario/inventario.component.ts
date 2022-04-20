@@ -15,7 +15,7 @@ import { InventarioService } from '../../services/inventario.service';
 export class InventarioComponent implements OnInit {
 
   titulo:string = "Inventario";
-  dataInventario: any[] = [];
+  resultData: any[] = [];
   display: boolean = false;
   tituloModal! : string;
   checked: boolean = true;
@@ -56,6 +56,45 @@ export class InventarioComponent implements OnInit {
 
   }
 
+  
+
+  exportarCsv(param?:string, data?:any){
+
+    const headers = ["Id", "Clave", "Producto", "Pedimento", "Cantidad", "Fecha"];
+
+    let dataEx = this.resultData;
+
+    if(param){
+      dataEx = data;
+    }
+
+    const dataExport = dataEx
+    .map((value) => {
+      return {
+        id: value.id,
+        clave: value.clave,
+        nombre: value.nombre,
+        pedimento: value.num_pedimento,
+        cantidad: value.cantidad,
+        created_at: moment(value.created_at).format("YYYY-MM-DD HH:mm:ss")
+      };
+    });
+
+    this.sharedService.exportCsv(dataExport, this.titulo, headers);
+  }
+
+  exportarTodoCsv(){
+    this.inventarioService.getDataAll().subscribe(data => {
+      console.log("-getDataAll-");
+      console.log(data);
+      if(data.error === false){
+        this.exportarCsv("todo", data.data);
+      } else {  
+        this.sharedService.errorData(data);
+      }
+    });
+  }
+
   pageChangeEvent(event: number){
     this.pagina = event;
     console.log("this.p: ", this.pagina);
@@ -86,7 +125,7 @@ export class InventarioComponent implements OnInit {
         if(!resp.data.data.length){
           this.sharedService.msg('info', 'Info', 'No se encontraron resultados!');
         }
-        this.dataInventario = resp.data.data;
+        this.resultData = resp.data.data;
 
         /**
          * Armar paginación -- LuisMh 16-04-22
@@ -118,7 +157,7 @@ export class InventarioComponent implements OnInit {
     console.log("this.page_limit: ", this.page_limit);
     console.log("this.totalregistros: ", this.totalregistros);
     //console.log("this.pages.length: ", this.pages.length)
-    console.log("this.dataInventario.length: ", this.dataInventario)
+    console.log("this.resultData.length: ", this.resultData)
     
     /*Si el total de registros por pagina es mayor a el total de registros obtenidos 
     mostramos desde la página 1 */

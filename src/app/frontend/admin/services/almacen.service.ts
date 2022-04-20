@@ -71,6 +71,17 @@ export class AlmacenService {
 
   }
 
+  getDataAll(){
+    const url = `${this.baseUrl}/almacen/getData/all`;
+    const headers = new HttpHeaders()
+                  .set('x-auth-token', localStorage.getItem('token') || '');
+
+    return this.http.get(url, {headers: headers}).pipe(
+      map(data => data), catchError(err => of(err.error))
+    );
+          
+  }
+
 
   /*agregar(almacen: Object){
     console.log("almacen: ", almacen);

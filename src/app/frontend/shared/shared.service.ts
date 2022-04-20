@@ -3,6 +3,7 @@ import { AbstractControl } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
+import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 
 
 @Injectable({
@@ -73,6 +74,15 @@ export class SharedService {
       control.setValue('');
     }
     return null;
+  }
+
+  exportCsv(data:object, titulo:string, headers:object){
+    var options = { 
+      headers: headers,
+    };
+
+    new AngularCsv(data, titulo, options);
+
   }
 
 

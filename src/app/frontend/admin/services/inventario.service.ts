@@ -71,6 +71,17 @@ export class InventarioService {
   }
 
 
+  getDataAll(){
+    const url = `${this.baseUrl}/inventario/getData/all`;
+    const headers = new HttpHeaders()
+                  .set('x-auth-token', localStorage.getItem('token') || '');
+
+    return this.http.get(url, {headers: headers}).pipe(
+      map(data => data), catchError(err => of(err.error))
+    );
+  }
+
+
 
 
 }

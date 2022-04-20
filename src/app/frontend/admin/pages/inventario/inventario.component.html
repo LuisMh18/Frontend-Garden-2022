@@ -45,13 +45,22 @@
                 
             </div>
 
-            <div class="row">
+            <div class="row btns">
                 <div class="col-12 col-sm-6 col-md-2 d-grid col-xl-1 gap-2" style="line-height: 5;">
                     <button type="submit" class="btn btn-primary btn-lg">Buscar</button>
                 </div>
                 <div class="col-12 col-sm-6 col-md-2 col-xl-1 d-grid gap-2" style="line-height: 5;">
                     <button type="button" class="btn btn-danger " (click)="clear()">Limpiar</button>
                 </div>
+
+                <div class="col-12 col-sm-6 col-md-2 col-xl-2 d-grid gap-2" style="line-height: 5;">
+                    <button type="button" class="btn verde-principal-boton " (click)="exportarCsv()">Csv Página actual</button>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-2 col-xl-2 d-grid gap-2" style="line-height: 5;">
+                    <button type="button" class="btn verde-principal-boton " (click)="exportarTodoCsv()">Exportar Todo</button>
+                </div>
+
             </div>
             
             
@@ -103,7 +112,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let obj of dataInventario | paginate: { itemsPerPage: page_limit, currentPage: pagina, totalItems: totalregistros }; let i = index;">
+                <tr *ngFor="let obj of resultData | paginate: { itemsPerPage: page_limit, currentPage: pagina, totalItems: totalregistros }; let i = index;">
                     <td>{{ obj.id }}</td>
                     <td>{{ obj.clave }}</td>
                     <td>{{ obj.nombre }}</td>
@@ -135,7 +144,7 @@
 
             
 
-            <div *ngIf="dataInventario.length" class="col-12 col-sm-6 div-paginacion">
+            <div *ngIf="resultData.length" class="col-12 col-sm-6 div-paginacion">
 
                 <nav>
                     <ul class="pagination">

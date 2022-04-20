@@ -17,7 +17,7 @@ import { SharedService } from 'src/app/frontend/shared/shared.service';
 export class AlmacenComponent implements OnInit {
 
   titulo:string = "Catálogo Almacén";
-  dataAlmacen: any[] = [];
+  resultData: any[] = [];
   display: boolean = false;
   tituloModal! : string;
   checked: boolean = true;
@@ -75,6 +75,42 @@ export class AlmacenComponent implements OnInit {
 
   }
 
+  exportarCsv(param?:string, data?: any){
+
+    const headers =  ["Id", "Clave", "Nombre", "Estatus", "Fecha"];
+
+    let dataEx = this.resultData;
+
+    if(param){
+      dataEx = data;
+    } 
+
+    const dataExport = dataEx
+      .map((value) => {
+        return {
+          id: value.id,
+          clave: value.clave,
+          nombre: value.nombre,
+          estatus: (value.estatus == 1) ? "Activo" : "Inactivo",
+          created_at: moment(value.created_at).format("YYYY-MM-DD HH:mm:ss")
+        };
+      });
+
+    this.sharedService.exportCsv(dataExport, this.titulo, headers);
+  }
+
+  exportarTodoCsv(){
+    this.almacenService.getDataAll().subscribe(data => {
+      console.log("getDataAll");
+      console.log(data);
+      if(data.error === false){
+        this.exportarCsv("todo", data.data);
+      } else {
+        this.sharedService.errorData(data);
+      }
+    });
+  }
+
   pageChangeEvent(event: number){
     this.pagina = event;
     console.log("this.p: ", this.pagina);
@@ -88,13 +124,6 @@ export class AlmacenComponent implements OnInit {
     this.order = "DESC";
     this.pagina = 1;
     this.getData();
-  }
-
-  //cambiar de pagina ----
-  changePage(pagina:number){
-    console.log("pagina: ", pagina);
-    this.formularioBuscar.value.current_page = pagina;
-    this.getData(this.formularioBuscar.value);
   }
 
 
@@ -114,7 +143,7 @@ export class AlmacenComponent implements OnInit {
         if(!resp.data.data.length){
           this.sharedService.msg('info', 'Info', 'No se encontraron resultados!');
         }
-        this.dataAlmacen = resp.data.data;
+        this.resultData = resp.data.data;
 
         /**
          * Armar paginación -- LuisMh 16-04-22

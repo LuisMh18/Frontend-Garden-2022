@@ -317,3 +317,7 @@ input:focus, select:focus, select, input.form-control:focus {
 .paginacion-disabled:hover{
   background-color: #323539!important;
 }
+
+.btns div{
+  margin-top: 10px;;
+}
