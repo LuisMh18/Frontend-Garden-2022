@@ -207,10 +207,10 @@ export class AlmacenComponent implements OnInit {
       console.log(data);
       if(data.error == false){
         this.formularioAlmacen.reset({
-          id: data.object[0].id,
-          clave: data.object[0].clave,
-          nombre: data.object[0].nombre,
-          estatus: (data.object[0].estatus == 1) ? true : false,
+          id: data.data[0].id,
+          clave: data.data[0].clave,
+          nombre: data.data[0].nombre,
+          estatus: (data.data[0].estatus == 1) ? true : false,
         });
       } else {
         this.sharedService.errorData(data);
