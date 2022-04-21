@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FrontendModule } from '../frontend.module';
 import { InventarioComponent } from './pages/inventario/inventario.component';
 //import { PaginacionComponent } from '../shared/paginacion/paginacion.component';
+import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { InventarioComponent } from './pages/inventario/inventario.component';
     LayoutComponent,
     AgentesComponent,
     InventarioComponent,
+    UsuariosComponent
   ],
   imports: [
     CommonModule,

@@ -7,6 +7,7 @@ import { ComercializadorComponent } from './pages/comercializador/comercializado
 import { LayoutComponent } from './pages/layout/layout.component';
 import { AgentesComponent } from './pages/agentes/agentes.component';
 import { InventarioComponent } from './pages/inventario/inventario.component';
+import { UsuariosComponent } from './pages/usuarios/usuarios.component';
 
 const routes: Routes = [
 
@@ -18,6 +19,7 @@ const routes: Routes = [
       {path:'almacen', component: AlmacenComponent},
       {path:'clientes', component: ClientesComponent},
       {path:'comercializador', component: ComercializadorComponent},
+      {path:'usuarios', component: UsuariosComponent},
       {path:'inventario', component: InventarioComponent},
       {path:'agentes', component:AgentesComponent},
       {path:'**', component: DashboardComponent}
