@@ -36,10 +36,12 @@ export class UsuariosComponent implements OnInit {
   /*End Paginación */
 
 
-  formularioAlmacen: FormGroup = this.fb.group({
-    'clave': ['', [Validators.required, Validators.minLength(3), this.sharedService.removeSpaces] ],
-    'nombre': ['', [Validators.required, Validators.minLength(3), this.sharedService.removeSpaces]],
-    'estatus': [true],
+  formularioUsuario: FormGroup = this.fb.group({
+    'usuario': ['', [Validators.required, Validators.minLength(3), this.sharedService.removeSpaces] ],
+    'email': ['', [Validators.required, Validators.minLength(3), Validators.email , this.sharedService.removeSpaces]],
+    'rol_id': [3],
+    'password': ['', [Validators.required, Validators.minLength(6), this.sharedService.removeSpaces]],
+    'password_confirm': ['', [Validators.required, Validators.minLength(6), this.sharedService.removeSpaces]],
   });
 
   formularioBuscar: FormGroup = this.fb.group({
@@ -163,10 +165,10 @@ export class UsuariosComponent implements OnInit {
   //Agregar Almacen
   agregar(){
     console.log("Agregar nuevo almacen");
-    this.tituloModal = "Agregar Almacen";
+    this.tituloModal = "Agregar Usuario";
     this.display = true;
-    this.formularioAlmacen.reset({
-     estatus: true      
+    this.formularioUsuario.reset({
+      rol_id: 3      
     });
     this.botonModal = "Agregar";
   }
@@ -180,7 +182,7 @@ export class UsuariosComponent implements OnInit {
 
     this.tituloModal = "Editar Almacen";
     this.display = true;
-    /*this.formularioAlmacen.reset({
+    /*this.formularioUsuario.reset({
      estatus: true      
     });*/
     this.botonModal = "Actualizar";
@@ -194,24 +196,24 @@ export class UsuariosComponent implements OnInit {
   //Agregar o actualizar datos
   confirmar(tipo:string){
     console.log("Agregar/Actualizar almacen");
-    console.log(this.formularioAlmacen.controls);
+    console.log(this.formularioUsuario.controls);
     
-    const validate = this.sharedService.validarCampos(this.formularioAlmacen);
+    const validate = this.sharedService.validarCampos(this.formularioUsuario);
 
     if(validate.invalid){
       return;
     }
 
-    //console.log(this.formularioAlmacen.value.estatus);
+    //console.log(this.formularioUsuario.value.estatus);
 
-    (this.formularioAlmacen.value.estatus == true) ? this.formularioAlmacen.value.estatus = 1 : this.formularioAlmacen.value.estatus = 0;
+    (this.formularioUsuario.value.estatus == true) ? this.formularioUsuario.value.estatus = 1 : this.formularioUsuario.value.estatus = 0;
 
-    console.log(this.formularioAlmacen.value);
+    console.log(this.formularioUsuario.value);
 
     if(tipo == "Agregar"){
-      this.add(this.formularioAlmacen.value);
+      this.add(this.formularioUsuario.value);
     } else {
-      this.update(this.formularioAlmacen.value);
+      this.update(this.formularioUsuario.value);
     }
 
 
