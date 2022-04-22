@@ -35,6 +35,9 @@ export class UsuariosComponent implements OnInit {
   pagina: number = 1;
   /*End Paginación */
 
+  updatePass = false;
+  addPass = false;
+
 
   formularioUsuario: FormGroup = this.fb.group({
     'usuario': ['', [Validators.required, Validators.minLength(3), this.sharedService.removeSpaces] ],
@@ -42,6 +45,9 @@ export class UsuariosComponent implements OnInit {
     'rol_id': [3],
     'password': ['', [Validators.required, Validators.minLength(6), this.sharedService.removeSpaces]],
     'password_confirm': ['', [Validators.required, Validators.minLength(6), this.sharedService.removeSpaces]],
+    'old_password': ['', [Validators.required, Validators.minLength(6), this.sharedService.removeSpaces]],
+    'new_password': ['', [Validators.required, Validators.minLength(6), this.sharedService.removeSpaces]],
+    'new_password_confirm': ['', [Validators.required, Validators.minLength(6), this.sharedService.removeSpaces]],
   });
 
   formularioBuscar: FormGroup = this.fb.group({
@@ -69,7 +75,7 @@ export class UsuariosComponent implements OnInit {
 
   exportarCsv(param?:string, data?: any){
 
-    const headers =  ["Id", "Clave", "Nombre", "Estatus", "Fecha"];
+    const headers =  ["Id", "Usuario", "Email", "Rol", "Fecha"];
 
     let dataEx = this.resultData;
 
@@ -79,11 +85,19 @@ export class UsuariosComponent implements OnInit {
 
     const dataExport = dataEx
       .map((value) => {
+        let rol = "";
+        if(value.rol_id == 1){
+          rol = "Cliente";
+        } else if(value.rol_id == 2){
+          rol = "Agente";
+        } else if(value.rol_id == 3){
+          rol = "Administrador";
+        }
         return {
           id: value.id,
-          clave: value.clave,
-          nombre: value.nombre,
-          estatus: (value.estatus == 1) ? "Activo" : "Inactivo",
+          usuario: value.usuario,
+          email: value.email,
+          rol: rol,
           created_at: moment(value.created_at).format("YYYY-MM-DD HH:mm:ss")
         };
       });
@@ -92,7 +106,13 @@ export class UsuariosComponent implements OnInit {
   }
 
   exportarTodoCsv(){
-    
+    this.usuariosService.getDataAll().subscribe(data => {
+      if(data.error === false){
+        this.exportarCsv("todo", data.data);
+      } else {
+        this.sharedService.errorData(data);
+      }
+    });
   }
 
   pageChangeEvent(event: number){
@@ -127,12 +147,15 @@ export class UsuariosComponent implements OnInit {
         }
         this.paginacion = this.sharedService.mostrarResultados(data.data);
         this.resultData = data.data.data;
-        this.roles = data.roles;
         this.infoResultados = this.paginacion.infoResultados;
         this.totalregistros = data.data.total;
-        setTimeout(() => {
+        //console.log("params:::::: ", params);
+        if(params == undefined){
+          this.roles = data.roles;
+        }
+        /*setTimeout(() => {
           (this.formularioBuscar.value.rol_id_s == "") ?  this.formularioBuscar.reset({ rol_id_s: 99}) : this.formularioBuscar.reset({ rol_id_s: this.formularioBuscar.value.rol_id_s });
-        }, 5);
+        }, 5);*/
         
       } else {
         console.log(data.msg);
@@ -164,27 +187,53 @@ export class UsuariosComponent implements OnInit {
 
   //Agregar Almacen
   agregar(){
-    console.log("Agregar nuevo almacen");
     this.tituloModal = "Agregar Usuario";
+    this.addPass = true;
+    this.updatePass = false;
     this.display = true;
-    this.formularioUsuario.reset({
-      rol_id: 3      
-    });
     this.botonModal = "Agregar";
+
+    this.formularioUsuario.reset({
+      rol_id: 3 ,
+      password: '',
+      password_confirm: '', 
+      old_password: '12345678', 
+      new_password: '12345678', 
+      new_password_confirm: '12345678', 
+    });
+
   }
 
 
   editar(id:string){
     console.log("Editar nuevo almacen");
     console.log(id);
-    sessionStorage.setItem("idAlmacen", id);
+    sessionStorage.setItem("idUsuario", id);
 
+    this.addPass = false;
+    this.updatePass = true;
 
-    this.tituloModal = "Editar Almacen";
+    this.usuariosService.editar(parseInt(id)).subscribe(data => {
+      console.log("data: ", data);
+      if(data.error === false){
+        this.formularioUsuario.reset({
+          usuario: data.data[0].usuario,
+          email: data.data[0].email,
+          rol_id: data.data[0].rol_id,
+          password: '12345678',
+          password_confirm: '12345678', 
+          old_password: '', 
+          new_password: '', 
+          new_password_confirm: '', 
+
+        });
+      } else {
+        this.sharedService.errorData(data);
+      }
+    });
+
+    this.tituloModal = "Editar Usuario";
     this.display = true;
-    /*this.formularioUsuario.reset({
-     estatus: true      
-    });*/
     this.botonModal = "Actualizar";
   }
 
@@ -195,52 +244,69 @@ export class UsuariosComponent implements OnInit {
 
   //Agregar o actualizar datos
   confirmar(tipo:string){
-    console.log("Agregar/Actualizar almacen");
     console.log(this.formularioUsuario.controls);
+
+    if(tipo == "Agregar"){
+      this.formularioUsuario.value.old_password = "12345678";
+      this.formularioUsuario.value.new_password = "12345678";
+      this.formularioUsuario.value.new_password_confirm = "12345678"; 
+    } else {
+      this.formularioUsuario.value.password = "12345678";
+      this.formularioUsuario.value.password_confirm = "12345678";
+    }
+
+    console.log("this.formularioUsuario");
+    console.log(this.formularioUsuario.value);
     
     const validate = this.sharedService.validarCampos(this.formularioUsuario);
 
     if(validate.invalid){
       return;
     }
-
-    //console.log(this.formularioUsuario.value.estatus);
-
-    (this.formularioUsuario.value.estatus == true) ? this.formularioUsuario.value.estatus = 1 : this.formularioUsuario.value.estatus = 0;
-
-    console.log(this.formularioUsuario.value);
-
     if(tipo == "Agregar"){
       this.add(this.formularioUsuario.value);
     } else {
       this.update(this.formularioUsuario.value);
     }
 
-
   }
-
  
 
-  add(almacen:any){
-    console.log(almacen);
-
-          
-
+  add(usuario:any){
+    console.log(usuario);
+    this.usuariosService.agregar(usuario).subscribe(data => {
+      console.log(data);
+      if(data.error === false){
+        this.display = false;
+        this.sharedService.msg('success', 'Éxito', data.msg);
+        this.getData(this.formularioBuscar.value);
+      } else {
+        this.sharedService.errorData(data);
+      }
+    });
   }
 
   update(almacen:object){
     console.log("Actualizamos el almacen");
-    const id = sessionStorage.getItem("idAlmacen") || '';
+    const id =  parseInt(sessionStorage.getItem("idUsuario") || '');
+    this.usuariosService.actualizar(id, almacen).subscribe(data => {
+        if(data.error === false){
+          this.display = false;
+          this.sharedService.msg('success', 'Éxito', data.msg);
+          this.getData(this.formularioBuscar.value);
+        } else {
+          this.sharedService.errorData(data);
+        }
+    });
   }
 
 
   eliminar(obj:any){
-    console.log("Eliminar almacen");
+    console.log("Eliminar usuario");
     console.log(obj);
-    sessionStorage.setItem("idAlmacen", obj.id);
 
     Swal.fire({
-      title: `¿Está seguro de eliminar el almacén ${obj.clave}?`,
+      title: `¿Está seguro de eliminar el usuario ${obj.usuario}?`,
       text: "¡No podrás revertir esto!",
       icon: 'warning',
       showCancelButton: true,
@@ -250,7 +316,14 @@ export class UsuariosComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        
+        this.usuariosService.eliminar(obj.id).subscribe(data => {
+          if(data.error === false){
+            this.sharedService.msg("success", "Éxito", data.msg);
+            this.getData(this.formularioBuscar.value);
+          } else {
+            this.sharedService.errorData(data);
+          }
+        });
       }
     });
 

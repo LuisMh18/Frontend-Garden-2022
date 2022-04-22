@@ -39,17 +39,43 @@ export class SharedService {
   validarCampos(controls:any){
       for (const field in controls.controls) { // 'field' is a string
         //console.log("field:" + field);
+
         const control = controls.get(field); // 'control' is a FormControls);
 
           if(control?.errors?.['required']){
             //console.log('error', `El campo ${field} es requerido.`);
-            this.msg('error', 'Error', `El campo ${field} es requerido.`);
+            if(field == "password"){
+              this.msg('error', 'Error', `El campo contraseña es requerido.`);
+            } else if(field == "password_confirm"){
+              this.msg('error', 'Error', `El campo repetir contraseña es requerido.`);
+            } else if(field == "old_password"){
+              this.msg('error', 'Error', `El campo contraseña anterior es requerido.`);
+            } else if(field == "new_password"){
+              this.msg('error', 'Error', `El campo nueva contraseña es requerido.`);
+            } else if(field == "new_password_confirm"){
+              this.msg('error', 'Error', `El campo repetir nueva contraseña es requerido.`);
+            } else {
+              this.msg('error', 'Error', `El campo ${field} es requerido.`);
+            }
+            
 
           }
     
           if(control?.errors?.['minlength']){ 
             //console.log('error', `El campo ${field} debe de tener al menos 3 caracteres.`);
-            this.msg('error', 'Error', `El campo ${field} debe de tener al menos 3 caracteres.`);
+            if(field == "password"){
+              this.msg('error', 'Error', `El campo contraseña debe de tener al menos 3 caracteres.`);
+            } else if(field == "password_confirm"){
+              this.msg('error', 'Error', `El campo repetir contraseña debe de tener al menos 3 caracteres.`);
+            } else if(field == "old_password"){
+              this.msg('error', 'Error', `El campo contraseña anterior debe de tener al menos 3 caracteres.`);
+            } else if(field == "new_password"){
+              this.msg('error', 'Error', `El campo nueva contraseña debe de tener al menos 3 caracteres.`);
+            } else if(field == "new_password_confirm"){
+              this.msg('error', 'Error', `El campo repetir nueva contraseña debe de tener al menos 3 caracteres.`);
+            } else {
+              this.msg('error', 'Error', `El campo ${field} debe de tener al menos 3 caracteres.`);
+            }
             
           }
           if(control?.errors?.['email']){ 
@@ -170,6 +196,7 @@ export class SharedService {
 
   //metodo si el token expira, limpiamos el localStorage y redireccionamos al login
   errorData(data:any) {
+    console.log("errorData: ", data);
     if(data.msg == "Token no valido"){
       this.msg('error', 'Error', data.msg);
       setTimeout(() => {

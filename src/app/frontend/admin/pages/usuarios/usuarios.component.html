@@ -181,26 +181,48 @@
                 <div class="col-12 col-sm-6">
                     <div class="form-group">
                         <label for="usuario">Usuario: </label>
-                        <input type="text" class="form-control" name="usuario" id="usuario" tabindex="1" formControlName="usuario">
+                        <input type="text" class="form-control" name="usuario" id="usuario" formControlName="usuario">
                     </div>
                 </div>
                 <div class="col-12 col-sm-6">
                     <div class="form-group">
                         <label for="email">Email: </label>
-                        <input type="text" class="form-control" name="email" id="email" tabindex="2" formControlName="email">
+                        <input type="text" class="form-control" name="email" id="email" formControlName="email">
                     </div>
                 </div>
-                <div class="row">
+
+                <div class="row" *ngIf="updatePass">
+                    <div class="col-12 col-sm-12">
+                        <div class="form-group">
+                            <label for="old_password">Contraseña Anterior: </label>
+                            <input type="password" class="form-control" name="old_password" id="old_password" formControlName="old_password">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label for="new_password">Nueva Contraseña: </label>
+                            <input type="password" class="form-control" name="new_password" id="new_password" formControlName="new_password">
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label for="new_password_confirm">Repetir Nueva Contraseña: </label>
+                            <input type="password" class="form-control" name="new_password_confirm" id="new_password_confirm" formControlName="new_password_confirm">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="addPass">
                     <div class="col-12 col-sm-6">
                         <div class="form-group">
                             <label for="password">Contraseña: </label>
-                            <input type="password" class="form-control" name="password" id="password" tabindex="3" formControlName="password">
+                            <input type="password" class="form-control" name="password" id="password" formControlName="password">
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
                         <div class="form-group">
                             <label for="password_confirm">Repetir Contraseña: </label>
-                            <input type="password" class="form-control" name="password_confirm" id="password_confirm" tabindex="4" formControlName="password_confirm">
+                            <input type="password" class="form-control" name="password_confirm" id="password_confirm" formControlName="password_confirm">
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, catchError, of } from 'rxjs';
+import { map, catchError, of, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +63,61 @@ export class UsuariosService {
       map(data => data), catchError(err => of(err.error))
     );
 
+  }
+
+
+  editar(id:number){
+    const url = `${this.baseUrl}/usuarios/${id}`;
+    const headers = new HttpHeaders()
+                    .set('x-auth-token', localStorage.getItem("token") || '');
+
+    return this.http.get(url, {headers: headers}).pipe(
+      map(data => data), catchError(err => of(err.error))
+    );
+  }
+
+
+  agregar(usuario:any):Observable<any>{
+    const url = `${this.baseUrl}/usuarios`;
+
+    const headers = new HttpHeaders()
+                    .set('x-auth-token', localStorage.getItem("token") || '');
+
+    return this.http.post(url, usuario, {headers: headers}).pipe(
+      map(data => data), catchError(err => of(err.error))
+    );
+
+  }
+
+  actualizar(id:number, usuario:any):Observable<any>{
+    const url = `${this.baseUrl}/usuarios/${id}`;
+    const headers = new HttpHeaders()
+                    .set('x-auth-token', localStorage.getItem("token") || '');
+
+      return this.http.put(url, usuario, {headers: headers}).pipe(
+        map(data => data), catchError(err => of(err.error))
+      );
+  }
+
+  eliminar(id:number){
+    const url =  `${this.baseUrl}/usuarios/${id}`;
+    const headers = new HttpHeaders()
+                    .set('x-auth-token', localStorage.getItem("token") || '');
+
+      return this.http.delete(url, {headers: headers}).pipe(
+        map(data => data), catchError(err => of(err.error))
+      );
+  }
+
+
+  getDataAll(){
+    const url = `${this.baseUrl}/usuarios/getData/all`;
+    const headers = new HttpHeaders()
+                        .set('x-auth-token', localStorage.getItem("token") || '');
+
+    return this.http.get(url, {headers: headers}).pipe(
+      map(data => data), catchError(err => of(err.error))
+    );
   }
 
 }
