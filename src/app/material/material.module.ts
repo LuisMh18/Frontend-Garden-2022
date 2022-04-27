@@ -14,6 +14,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 
+import { MatTabsModule } from '@angular/material/tabs';
+
+import { TabViewModule } from 'primeng/tabview';
+
+import { ChartModule } from 'primeng/chart';
+
 @NgModule({
   exports: [
     DialogModule,
@@ -23,7 +29,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CalendarModule,
     ImageModule,
     NgxPaginationModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTabsModule,
+    TabViewModule,
+    ChartModule
   ]
 })
+
 export class MaterialModule { }

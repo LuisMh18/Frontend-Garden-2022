@@ -1,45 +1,186 @@
+<h2>
+    {{ titulo }}
+</h2>
 
-<p>dashboard works!</p>
+<p-toast></p-toast>
 
-<!--
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
+<div>
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
+    <br>
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
+    <div class="div-filtros">
+        <form class="form-modal" autocomplete="off" [formGroup]="formularioBuscar" >
+            <div class="row">
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
+                <div class="col-12 col-sm-6 col-md-3 col-xl-2">
+                    <div class="form-group">
+                        <label for="estatus_s"></label>
+                        <select name="tipo" id="tipo" class="form-control" formControlName="tipo" (change)="changeTipo()">
+                            <option value="dia">Pedidos del día</option>
+                            <option value="mes">Pedidos del mes</option>
+                            <option value="anio">Pedidos por año</option>
+                            <option value="periodo">Pedidos por periodo</option>
+                            <option value="todos">Todos los pedidos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-xl-2">
+                    <div class="form-group">
+                        <label for="fecha_inicio" *ngIf="label_fecha">Fecha: </label>
+                        <div *ngIf="f_inicio">
+                            <p-calendar name="fecha_inicio" dateFormat="dd/mm/yy" formControlName="fecha_inicio" (onSelect)="changeDate()"></p-calendar>
+                        </div>
+                        <div *ngIf="f_mes_anio">
+                            <p-calendar name="mes_anio" view="month" dateFormat="mm/yy" formControlName="mes_anio" (onSelect)="changeDate()"></p-calendar>
+                        </div>
+                        <div *ngIf="f_anio">
+                            <p-calendar name="_anio" view="year" dateFormat="yy" formControlName="_anio" (onSelect)="changeDate()"></p-calendar>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 col-xl-2">
+                    <div class="form-group" *ngIf="f_fin">
+                        <label for="fecha_fin">Fecha Fin: </label>
+                        <div><p-calendar name="fecha_fin" dateFormat="dd/mm/yy" formControlName="fecha_fin" (onSelect)="changeDate()"></p-calendar></div>
+                    </div>
+                </div>
+                
+            </div>            
+            
+        </form>
+    </div>
+
+    <div class="estatus-pedidos-grafica">
+        <div class="estatus-pedidos">
+            <h2 class="text-info" style="margin: 0;">Estatus de los pedidos</h2>
+            <div>
+                <div class="caja">
+                    <h5>Total de pedidos.</h5>
+                    <div>
+                        <div class="color-caja color-caja1">
+                           <span>{{ totalPedidos }}</span>
+                        </div>
+                        <div class="caja-info">
+                            <p class="text-success">{{ totalPedidosDineroPorDia | currency }}</p>
+                            <a class="text-primary">Ver detalle</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="caja">
+                    <h5>Pedidos pagados.</h5>
+                    <div>
+                        <div class="color-caja color-caja2">
+                           <span>{{ totalPedidosPagados }}</span>
+                        </div>
+                        <div class="caja-info">
+                            <p class="text-success">{{ totalPedidosDineroPagados | currency }}</p>
+                            <a class="text-primary">Ver detalle</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="caja">
+                    <h5>Pedidos a crédito.</h5>
+                    <div>
+                        <div class="color-caja color-caja3">
+                           <span>{{ totalPedidosCredito }}</span>
+                        </div>
+                        <div class="caja-info">
+                            <p class="text-success">{{ totalPedidosDineroCredito | currency }}</p>
+                            <a class="text-primary">Ver detalle</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="caja">
+                    <h5>Pedidos pendientes.</h5>
+                    <div>
+                        <div class="color-caja color-caja4">
+                           <span>{{ totalPedidosPendientes }}</span>
+                        </div>
+                        <div class="caja-info">
+                            <p class="text-success">{{ totalPedidosDineroPendientes | currency }}</p>
+                            <a class="text-primary">Ver detalle</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="caja">
+                    <h5>Pedidos cancelados.</h5>
+                    <div>
+                        <div class="color-caja color-caja5">
+                           <span>{{ totalPedidosCancelados }}</span>
+                        </div>
+                        <div class="caja-info">
+                            <p class="text-success">{{ totalPedidosDineroCancelados | currency }}</p>
+                            <a class="text-primary">Ver detalle</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-<hr>
+    <div class="div-inventario">
+        <div>
+            <!--<h2 class="text-info" style="margin: 0;">Inventario</h2>-->
+        </div>
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
+        <p-tabView>
+            <p-tabPanel header="Grafica">
+                <div class="grafica">
+                    <p-chart type="doughnut" [data]="data" [options]="chartOptions" [style]="{'width': '40%'}"></p-chart>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Total de inventario">
+               <div class="content-cajas">
+                   <div class="caja-inventario" *ngFor="let p of productosTotales; let i = index">
+                       <h5 class="text-primary">{{ p.totalEnInventario }}</h5>
+                       <h5>{{ p.clave }}</h5>
+                   </div>
+               </div>
+            </p-tabPanel>
+            <p-tabPanel header="Detalles Generales">
+                <div class="table-responsive">
+                    <table class="table table-striped table-dark table-hover table-bordered">
+                      <thead>
+                        <tr>  
+                            <td>Id</td>
+                            <td>Clave</td>
+                            <td>Nombre</td>
+                            <td>Color</td>
+                            <td>Piezas por paquete</td>
+                            <td>Total Piezas</td>
+                            <td>Total Inventario</td>
+                            <td>Foto</td>
+                            <td>Iva</td>
+                            <td>Almacén</td>
+                            <td>Familia</td>
+                            <td>Categoría</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let p of productosTotalesDetalle; let i = index;">
+                            <td>{{ p.id }}</td>
+                            <td>{{ p.clave }}</td>
+                            <td>{{ p.nombre }}</td>
+                            <td>{{ p.color }}</td>
+                            <td>{{ p.piezas_paquete }} </td>
+                            <td class="text-info">{{ p.total_piezas }} </td>
+                            <td class="text-primary">{{ p.totalEnInventario }} </td>
+                            <td><p-image [src]="'http://localhost:4000' + p.ruta_imagen" alt="{{ p.foto }}" [preview]="true"  width="30"></p-image></td> 
+                            <td>{{ p.IVA }} </td>
+                            <td>{{ p.almacen }} </td>
+                            <td>{{ p.familia }} </td>
+                            <td>{{ p.categoria }} </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </p-tabPanel>
+        </p-tabView>
+        
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
+    </div>
+    
 
 
-<hr>
-
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam beatae repellendus eius pariatur sapiente, eos suscipit! Aspernatur, quod? Veniam culpa placeat necessitatibus ex ipsum. Officiis non nostrum nihil! Voluptatibus, quam</p>
-
--->
+</div>

@@ -5,7 +5,7 @@ import { AuthResponse } from '../../../../../auth/interfaces/interfaces';
 
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { MenuService } from '../../../services/menu.service';
-import { MenuResponse } from '../../../interfaces/interfaces';
+//import { MenuResponse } from '../../../interfaces/interfaces';
 
 @Component({
   selector: 'app-sidebar',
@@ -40,12 +40,12 @@ export class SidebarComponent implements OnInit {
     ]).subscribe((result: BreakpointState) => {
       if (result.matches) {
           // hide stuff    
-          console.log("se cumple la condición de resolucion de pantalla: ", result.matches);
+          //console.log("se cumple la condición de resolucion de pantalla: ", result.matches);
           this.menu = true;   
       } else {
           // show stuff
           this.menu = false;   
-          console.log("la resolución esta abajo de los 1280px");   
+          //console.log("la resolución esta abajo de los 1280px");   
       }
     })
 
@@ -64,34 +64,34 @@ export class SidebarComponent implements OnInit {
 
     this.usuario = JSON.parse(localStorage.getItem("usuario")!);
 
-    console.log("usuario::: ", this.usuario );
+    /*console.log("usuario::: ", this.usuario );
     console.log("--------");
     console.log(this.usuario.usuario.nombreRol);
     console.log(this.usuario.usuario);
     console.log(this.usuario.error!);
-    console.log("--------");
+    console.log("--------");*/
     //console.log(this.usuario.email);
 
     
     this.armarMenu();
 
-    this.objetoPrueba.forEach( value => {
+    /*this.objetoPrueba.forEach( value => {
       console.log("objetoPrueba value");
       console.log(value.nombre);
-    } );
+    } );*/
 
   }
 
   armarMenu(){
     this.menuService.getMenu().subscribe(resp => {
-      console.log("--resp---");
+      /*console.log("--resp---");
       console.log(resp.error);
-      console.log(resp.data);
+      console.log(resp.data);*/
       if(resp.error === false){
         this.datamenu = resp.data;
       } else {
-        console.log("**error***");
-        console.log(resp.msg);
+        /*console.log("**error***");
+        console.log(resp.msg);*/
         this.router.navigateByUrl('/auth');
         this.authService.logout();
       }
@@ -120,7 +120,7 @@ export class SidebarComponent implements OnInit {
 
 
   ocultarMostrarMneu(){
-    console.log("se oculta o se muestra");
+    //console.log("se oculta o se muestra");
     console.log(this.menu);
 
     
@@ -145,13 +145,13 @@ export class SidebarComponent implements OnInit {
   
 
   ocultarMostrarSubMenu(numero: number){
-    console.log("se oculta o se muestra");
+    //console.log("se oculta o se muestra");
     let opcionAntes = this.opcion;
-    console.log("opcion antes: ", opcionAntes);
+    //console.log("opcion antes: ", opcionAntes);
     this.opcion = numero;
     let opcionDespues = this.opcion;
-    console.log("numero: ", numero);
-    console.log("opcion: ", opcionDespues);
+    //console.log("numero: ", numero);
+    //console.log("opcion: ", opcionDespues);
 
     if(opcionAntes === numero && numero === opcionDespues){
       this.opcion = 0;

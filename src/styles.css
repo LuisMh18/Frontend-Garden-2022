@@ -321,3 +321,19 @@ input:focus, select:focus, select, input.form-control:focus {
 .btns div{
   margin-top: 10px;;
 }
+
+.p-tabview .p-tabview-panels {
+  background: #303030!important;
+}
+
+.p-tabview .p-tabview-nav {
+  background: #303030!important;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  background: #303030!important;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
+  box-shadow: none!important;
+}
