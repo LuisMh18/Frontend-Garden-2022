@@ -20,6 +20,9 @@ import { TabViewModule } from 'primeng/tabview';
 
 import { ChartModule } from 'primeng/chart';
 
+import { DropdownModule } from 'primeng/dropdown';
+
+
 @NgModule({
   exports: [
     DialogModule,
@@ -32,7 +35,8 @@ import { ChartModule } from 'primeng/chart';
     HttpClientModule,
     MatTabsModule,
     TabViewModule,
-    ChartModule
+    ChartModule,
+    DropdownModule,
   ]
 })
 

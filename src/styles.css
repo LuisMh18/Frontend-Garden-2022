@@ -337,3 +337,11 @@ input:focus, select:focus, select, input.form-control:focus {
 .p-tabview .p-tabview-nav li .p-tabview-nav-link:not(.p-disabled):focus {
   box-shadow: none!important;
 }
+
+
+.p-dropdown {
+  width: 100%;
+  border: 0px!important;
+  background: rgba(0, 0, 0, 0.2)!important;
+  color: #CCC!important;
+}

@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TiendaComponent } from './tienda/tienda.component';
+import { TiendaComponent } from './pages/tienda/tienda.component';
+import { LayoutComponent } from './pages/layout/layout.component';
 
 const routes: Routes = [
 
   {
     path:'',
-    component: TiendaComponent,
+    component: LayoutComponent,
     children: [
       {path:'productos', component: TiendaComponent},
       {path:'**', component: TiendaComponent}
