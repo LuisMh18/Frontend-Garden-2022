@@ -8,6 +8,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MessageService } from 'primeng/api';
 
+import { NgHttpLoaderModule } from 'ng-http-loader';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { MessageService } from 'primeng/api';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgHttpLoaderModule.forRoot(),
   ],
   providers: [
     MessageService,

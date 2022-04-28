@@ -132,13 +132,13 @@
             </p-tabPanel>
             <p-tabPanel header="Total de inventario">
                <div class="content-cajas">
-                   <div class="caja-inventario" *ngFor="let p of productosTotales; let i = index">
+                   <div class="caja-inventario" *ngFor="let p of productosTotales; let i = index" (click)="detalleInventario(p.id)"> 
                        <h5 class="text-primary">{{ p.totalEnInventario }}</h5>
                        <h5>{{ p.clave }}</h5>
                    </div>
                </div>
             </p-tabPanel>
-            <p-tabPanel header="Detalles Generales">
+            <p-tabPanel header="Detalles Inventario">
                 <div class="table-responsive">
                     <table class="table table-striped table-dark table-hover table-bordered">
                       <thead>
@@ -184,3 +184,25 @@
 
 
 </div>
+
+
+<p-dialog header="{{ tituloModal }}" [modal]="true"  [(visible)]="display" [breakpoints]="{'960px': '75vw'}" [style]="{width: '60vw'}"
+[draggable]="false" [resizable]="false">
+
+
+        <hr>
+        <h5 class="text-info text-center">{{ nombreProductoModal }}</h5>
+
+        <div class="content-cajas content-cajas-modal">
+            <div class="caja-inventario caja-inventario-modal" *ngFor="let obj of dataDetalleInventario; let i = index;"> 
+                <h5 class="text-primary">{{ obj.cantidad }}</h5>
+                <h6 class="text-danger">{{ obj.num_pedimento }}</h6>
+                <h6 class="text-info">{{ obj.created_at | date:'dd/MM/yy HH:mm:ss' }}</h6>
+            </div>
+        </div>
+
+
+    <ng-template pTemplate="footer">
+        <button pButton (click)="display=false" label="Salir" class="p-button-danger"></button>
+    </ng-template>
+</p-dialog>

@@ -199,7 +199,7 @@ export class SharedService {
     console.log("errorData: ", data);
     console.log("data.error.msg: ", data.error.msg);
     if(data.error.msg == "Token no valido"){
-      this.msg('error', 'Error', data.msg);
+      this.msg('error', 'Error', data.error.msg);
       setTimeout(() => {
          this.router.navigateByUrl('/auth');
          this.authService.logout();

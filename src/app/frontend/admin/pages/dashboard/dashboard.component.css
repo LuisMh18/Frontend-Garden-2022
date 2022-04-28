@@ -79,6 +79,12 @@
 }
 
 
+@media (max-width:680px){
+    .caja-inventario{
+        width: 100%!important;
+    }
+}
+
 
 @media (max-width:572px){
     .caja{
@@ -128,4 +134,23 @@
 .grafica{
     width: 50%;
     margin: 0 auto;
+}
+
+.content-cajas-modal{
+    justify-content: center;
+}
+
+.caja-inventario-modal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.caja-inventario-modal h6{
+    margin-bottom: 0;
+}
+
+.caja-inventario-modal h6:last-child{
+    font-size: 14px;
 }

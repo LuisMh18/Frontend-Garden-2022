@@ -44,6 +44,11 @@ export class DashboardComponent implements OnInit {
   data: any;
   chartOptions: any;
 
+  //modal --
+  display: boolean = false;
+  tituloModal! : string;
+  nombreProductoModal!:string;
+  dataDetalleInventario: any = [];
 
   formularioBuscar : FormGroup = this.fb.group({
     'tipo': ['dia'],
@@ -172,6 +177,22 @@ export class DashboardComponent implements OnInit {
 
   changeDate(){
     this.getData();
+  }
+
+
+  detalleInventario(id_producto:number){
+    console.log("id_producto: ", id_producto);
+    this.dashboardService.getInventario(id_producto).subscribe(data => {
+        console.log(data);
+        if(data.error === false){
+          this.display = true;
+          this.tituloModal = data.data[0].clave;
+          this.nombreProductoModal = data.data[0].nombre;
+          this.dataDetalleInventario = data.data;
+        } else {
+          this.sharedService.errorData(data);
+        }
+    });
   }
 
 

@@ -57,4 +57,16 @@ export class DashboardService {
   }
 
 
+  getInventario(id:number){
+    const url = `${this.baseUrl}/dashboard/getInventario/${id}`;
+    const headers = new HttpHeaders()
+                  .set('x-auth-token', localStorage.getItem('token') || '');
+  
+                  
+      return this.http.get(url, {headers: headers}).pipe(
+        map(data => data), catchError(err => of(err))
+      );
+  }
+
+
 }
