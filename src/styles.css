@@ -345,3 +345,11 @@ input:focus, select:focus, select, input.form-control:focus {
   background: rgba(0, 0, 0, 0.2)!important;
   color: #CCC!important;
 }
+
+
+.p-card {
+  border: 1px solid #181717!important;
+  box-shadow: 0px 2px 3px #181717!important;
+  background: #212224!important;
+  color:#ffff!important;
+}

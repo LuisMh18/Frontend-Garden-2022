@@ -22,6 +22,8 @@ import { ChartModule } from 'primeng/chart';
 
 import { DropdownModule } from 'primeng/dropdown';
 
+import { CardModule } from 'primeng/card';
+
 
 @NgModule({
   exports: [
@@ -37,6 +39,7 @@ import { DropdownModule } from 'primeng/dropdown';
     TabViewModule,
     ChartModule,
     DropdownModule,
+    CardModule
   ]
 })
 

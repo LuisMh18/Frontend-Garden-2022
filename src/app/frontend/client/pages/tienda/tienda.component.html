@@ -12,9 +12,35 @@
             <button class="btn verde-principal-boton">Buscar</button>
         </div>
 
-        
-
     </div>
+
+
+    <div class="list-products">
+
+        <p-card *ngFor="let product of products; let i = index;" header="{{ product.clave }}" [style]="{'width': '25rem', 'margin-bottom': '2em', 'text-align': 'center'}">
+            <ng-template pTemplate="header">
+                <!--<img alt="Card" src="http://localhost:4000/img/productos/PlantadeTomilloenmacetaterracota.png">-->
+                <p-image [src]="'http://localhost:4000' + product.ruta_imagen" alt="{{ product.foto }}" [style]="{'max-width': '150px', 'margin-top': '10px'}" [preview]="true" ></p-image>
+            </ng-template>
+            <p class="text-info">{{ product.nombre }}</p>
+            <p>Color: {{ product.color }}</p>
+            <p *ngIf="product.iva0 == 1">Iva: 16%</p>
+            <p *ngIf="product.iva0 == 0">Iva: 0%</p>
+            <p>Productos disponibles: {{ product.cantidad }}</p>
+            <h4 style="color:#1e9b88;">Precio: {{ product.precio | currency }}</h4>
+            <ng-template pTemplate="footer">
+                <div class="row footer-products">
+                    <div class="col-12 col-md-6">
+                        <input type="number" class="form-control" placeholder="Cantidad" styleClass="p-button-secondary">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <p-button [style]="{'margin-left': '.5em', 'height': '40px'}" label="Agregar" icon="pi pi-plus"></p-button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+
+    </div> <!-- end list-products -->
 
 
 </div>
