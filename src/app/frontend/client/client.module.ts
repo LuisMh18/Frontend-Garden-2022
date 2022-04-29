@@ -19,7 +19,7 @@ import { MaterialModule } from '../../material/material.module';
   imports: [
     CommonModule,
     ClientRoutingModule,
-    MaterialModule
+    MaterialModule,
   ]
 })
 export class ClientModule { }

@@ -31,7 +31,6 @@ export class SharedService {
 
 
   msg(type:string, textHeader:string, msg:string){
-
     this.messageService.add({severity:type, summary:textHeader, detail:msg});
     
   }

@@ -4,12 +4,12 @@
     <div class="search">
 
         <div>
-            <p-dropdown [options]="categorias" placeholder="Categoría" ></p-dropdown>
+            <p-dropdown [options]="categorias" placeholder="Categoría" #categoriaBuscar (onChange)="buscar()"></p-dropdown>
         </div>
 
         <div>
-            <input id="input-search" type="text" class="form-control" placeholder="Clave del producto" aria-label="Clave del producto">
-            <button class="btn verde-principal-boton">Buscar</button>
+            <input id="input-search" type="text" class="form-control" placeholder="Clave del producto" (keyup.enter)="buscar()" #claveBuscar>
+            <button class="btn verde-principal-boton" (click)="buscar()">Buscar</button>
         </div>
 
     </div>
@@ -27,6 +27,7 @@
             <p *ngIf="product.iva0 == 1">Iva: 16%</p>
             <p *ngIf="product.iva0 == 0">Iva: 0%</p>
             <p>Productos disponibles: {{ product.cantidad }}</p>
+            <p>Categoría: {{ product.categoria }}</p>
             <h4 style="color:#1e9b88;">Precio: {{ product.precio | currency }}</h4>
             <ng-template pTemplate="footer">
                 <div class="row footer-products">
