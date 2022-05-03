@@ -14,6 +14,12 @@ const routes: Routes = [
     //canActivate: [ ValidarTokenGuard ],
     //canLoad: [ ValidarTokenGuard ]
   },
+  { //Área del agente, para mostrar los pedidos que tiene asignados
+    path: 'agentes',
+    loadChildren: () => import('./frontend/agentes/agentes.module').then( m => m.AgentesModule),
+    //canActivate: [ ValidarTokenGuard ],
+    //canLoad: [ ValidarTokenGuard ]
+  },
   { //Área del cliente, dónde compra los productos
     path: 'cliente',
     loadChildren: () => import('./frontend/client/client.module').then( m => m.ClientModule),
