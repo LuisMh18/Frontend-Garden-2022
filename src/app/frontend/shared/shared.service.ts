@@ -196,13 +196,17 @@ export class SharedService {
   //metodo si el token expira, limpiamos el localStorage y redireccionamos al login
   errorData(data:any) {
     console.log("errorData: ", data);
-    console.log("data.error.msg: ", data.error.msg);
-    if(data.error.msg == "Token no valido"){
-      this.msg('error', 'Error', data.error.msg);
+    console.log("data.msg: ", data.msg);
+
+    if(data.msg == "Token no valido"){
+      this.msg('error', 'Error', data.msg);
       setTimeout(() => {
          this.router.navigateByUrl('/auth');
          this.authService.logout();
       }, 2000);
+    } else if(data.msg == "No hay Token, permiso no valido"){
+      this.router.navigateByUrl('/auth');
+      this.authService.logout();
     } else {
       this.msg('error', 'Error', "Error interno del servidor");
     }

@@ -159,7 +159,6 @@ export class AlmacenComponent implements OnInit {
          */
 
       } else {
-        console.log(resp.msg);
         this.sharedService.errorData(resp);
       }
     });

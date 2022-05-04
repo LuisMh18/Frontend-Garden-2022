@@ -6,6 +6,7 @@ import { AuthResponse } from '../../../../../auth/interfaces/interfaces';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { MenuService } from '../../../services/menu.service';
 //import { MenuResponse } from '../../../interfaces/interfaces';
+import { SharedService } from '../../../../shared/shared.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -31,7 +32,8 @@ export class SidebarComponent implements OnInit {
   constructor(private router: Router, 
              private authService: AuthService, 
              private breakpointObserver: BreakpointObserver,
-             private menuService: MenuService
+             private menuService: MenuService,
+             private sharedService: SharedService
              ) {
 
     // detect screen size changes
@@ -84,16 +86,13 @@ export class SidebarComponent implements OnInit {
 
   armarMenu(){
     this.menuService.getMenu().subscribe(resp => {
-      /*console.log("--resp---");
+      console.log("--resp---");
       console.log(resp.error);
-      console.log(resp.data);*/
+      console.log(resp.data);
       if(resp.error === false){
         this.datamenu = resp.data;
       } else {
-        /*console.log("**error***");
-        console.log(resp.msg);*/
-        this.router.navigateByUrl('/auth');
-        this.authService.logout();
+        this.sharedService.errorData(resp);
       }
 
     });

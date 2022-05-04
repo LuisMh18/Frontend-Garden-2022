@@ -50,7 +50,7 @@ export class DashboardService {
 
     //return this.http.get<TotalesInventario>(url, {headers: headers}).pipe(
     return this.http.get(url, {headers: headers}).pipe(  
-     map(data => data), catchError(err => of(err))
+     map(data => data), catchError(err => of(err.error))
     );
 
 
@@ -64,7 +64,7 @@ export class DashboardService {
   
                   
       return this.http.get(url, {headers: headers}).pipe(
-        map(data => data), catchError(err => of(err))
+        map(data => data), catchError(err => of(err.error))
       );
   }
 

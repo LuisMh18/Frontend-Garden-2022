@@ -64,7 +64,7 @@ export class PedidosService {
                         .set('x-auth-token', localStorage.getItem('token') || '');
 
     return this.http.get(url, {headers: headers}).pipe(
-      map(data => data), catchError(err => of(err))
+      map(data => data), catchError(err => of(err.error))
     );
   }
 
@@ -75,7 +75,7 @@ export class PedidosService {
                     .set('x-auth-token', localStorage.getItem('token') || '');
 
     return this.http.get(url, {headers: headers}).pipe(
-      map(data => data), catchError(err => of(err))
+      map(data => data), catchError(err => of(err.error))
     );
   }
 
