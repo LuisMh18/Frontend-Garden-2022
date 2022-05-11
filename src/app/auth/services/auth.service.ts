@@ -43,7 +43,7 @@ export class AuthService {
 
   }
 
-  validarToken(): Observable<boolean> {
+  validarToken(){
 
     const url = `${this.baseUrl}/auth/renovarToken`;
     const headers = new HttpHeaders()
@@ -53,6 +53,7 @@ export class AuthService {
                 .pipe(
                   map(resp => {
                     console.log("resprespresp: ", resp);
+                    console.log("error: ", resp.error);
                     localStorage.setItem('token', resp.token!);
                     this._usuario = {
                       id: resp.usuario.id,
@@ -60,7 +61,7 @@ export class AuthService {
                       email: resp.usuario.email,
                       rol: resp.usuario.nombreRol
                     }
-                    return resp.error;
+                    return resp;
                   }),
                   catchError(err => of(err.error))
                 )
